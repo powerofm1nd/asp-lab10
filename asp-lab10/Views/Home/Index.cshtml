@@ -1,0 +1,68 @@
+﻿@model RegistrationModel
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    var courses = Enum.GetValues(typeof(RegistrationModel.Courses));
+}
+
+<div class="text-center">
+    <form asp-action="Index" asp-controller="Home">
+        <div>
+            
+            
+            <div>
+                <label asp-for="FirstName">First name:</label><br />
+                <input type="text" asp-for="FirstName" value="@Model?.FirstName"/>
+                <br />
+                <span asp-validation-for="FirstName"></span>
+            </div>
+
+            <div>
+                <label asp-for="LastName">Last name:</label><br />
+                <input type="text" asp-for="LastName" value="@Model?.LastName"/>
+                <br />
+                <span asp-validation-for="LastName"></span>
+            </div>
+
+            <div>
+                <label asp-for="Email">Email: </label><br />
+                <input type="email" asp-for="Email" value="@Model?.Email"/>
+                <br />
+                <span asp-validation-for="Email"></span>
+            </div>
+
+            <div>
+                <label asp-for="DesirableDate">DesirableDate: </label><br />
+                <input type="date" asp-for="DesirableDate" value="@Model?.DesirableDate.ToString("yyyy-MM-dd")"/>
+                <br />
+                <span asp-validation-for="DesirableDate"></span>
+            </div>
+
+            <div>
+                <label asp-for="Course">Course: </label><br />
+                
+                <select asp-for="Course" value="@Model?.Course">
+                    @for (var i = 0; i < courses.Length; i++)
+                    {
+                        <option value="@i">@courses.GetValue(@i)</option>
+                    }
+                </select>
+                <br />
+                <span asp-validation-for="Course"></span>
+            </div>
+            <br />
+            
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            
+            <input type="submit" value="Register me"/>
+        </div>
+    </form>
+    
+    @if (!string.IsNullOrEmpty((string?)ViewData["Message"]))
+    {
+        <h1>@ViewData["Message"]</h1>
+    }
+</div>
+
+@await Html.PartialAsync("_ValidationScriptsPartial")
